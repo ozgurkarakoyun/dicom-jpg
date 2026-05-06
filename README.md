@@ -68,3 +68,39 @@ DICOM dosyaları hasta verisi içerebilir. Bu sistemi herkese açık kullanacaks
 - HTTPS kullanın.
 - DICOM metadata anonimleştirme ekleyin.
 - Yüklenen dosyaları otomatik silme süresi tanımlayın.
+
+
+## Railway build hatası düzeltmesi
+
+Eğer şu hatayı görürseniz:
+
+```text
+ResolutionImpossible
+pylibjpeg-libjpeg depends on numpy<3.0 and >=2.0
+The user requested numpy==1.26.4
+```
+
+`requirements.txt` içindeki numpy satırı şu şekilde olmalıdır:
+
+```text
+numpy>=2.0,<3.0
+```
+
+Bu paket kombinasyonu Railway Python 3.11 ortamı için uyumludur.
+
+
+## Klasör yükleme
+
+Bu sürümde tek dosya yerine doğrudan klasör seçilebilir.
+
+Kullanım:
+
+1. CD içeriğini bilgisayarda bir klasöre kopyalayın.
+2. Web uygulamasında **Klasör yükle** bölümünden ana klasörü seçin.
+3. Sistem tüm alt klasörleri tarar.
+4. DICOM olan dosyaları otomatik algılar.
+5. JPG çıktıları tarih / çalışma / seri klasörlerine ayrılır.
+6. Sonuçları tek ZIP olarak indirebilirsiniz.
+
+Not: Klasör yükleme özelliği Chrome ve Edge üzerinde en sorunsuz çalışır.
+Firefox veya Safari desteklemezse klasörü ZIP yapıp yükleyin.

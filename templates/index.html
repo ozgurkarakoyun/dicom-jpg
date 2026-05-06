@@ -5,13 +5,32 @@
     <h2>Dosya yükle</h2>
     <p class="muted">
         Tek tek DICOM dosyaları veya CD içeriğini ZIP yapıp yükleyebilirsiniz.
-        Maksimum yükleme boyutu: <strong>{{ max_upload_mb }} MB</strong>.
+        Maksimum yükleme boyutu: <strong>{{ max_upload_mb }} MB</strong>. Klasör yükleme Chrome ve Edge tarayıcılarında desteklenir.
+    </p>
+
+    <h3>Seçenek 1: Klasör yükle</h3>
+    <p class="muted">
+        CD içeriğini bilgisayara kopyaladıktan sonra ana klasörü seçin.
+        Sistem klasörün içindeki tüm alt klasörleri tarar ve DICOM dosyalarını JPG’ye çevirir.
+    </p>
+
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="files" webkitdirectory directory multiple required>
+        <br><br>
+        <button class="btn" type="submit">Klasörü Yükle ve JPG’ye Çevir</button>
+    </form>
+
+    <hr style="border:0; border-top:1px solid var(--border); margin:24px 0;">
+
+    <h3>Seçenek 2: Tek dosya / çoklu dosya / ZIP yükle</h3>
+    <p class="muted">
+        Tek tek DICOM dosyaları, birden fazla dosya veya CD içeriğinin ZIP arşivini yükleyebilirsiniz.
     </p>
 
     <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
         <input type="file" name="files" multiple required>
         <br><br>
-        <button class="btn" type="submit">Yükle ve JPG’ye Çevir</button>
+        <button class="btn secondary" type="submit">Dosyaları Yükle ve JPG’ye Çevir</button>
     </form>
 </div>
 

@@ -214,9 +214,25 @@ def process_uploads(files):
         if not uploaded or not uploaded.filename:
             continue
 
-        original_name = clean_filename(uploaded.filename, "upload")
+        # Klasör yüklemede tarayıcı dosya adını şu şekilde gönderir:
+        # "AnaKlasor/AltKlasor/DICOM001"
+        # Bu göreli yolu güvenli şekilde koruyup kaydediyoruz.
+        raw_name = uploaded.filename or "upload"
+
+        parts = []
+        for part in raw_name.replace("\\", "/").split("/"):
+            safe_part = clean_filename(part, "item")
+            if safe_part not in ["", ".", ".."]:
+                parts.append(safe_part)
+
+        if not parts:
+            parts = ["upload"]
+
+        original_name = "/".join(parts)
         original_names.append(original_name)
-        saved_path = job_upload_dir / original_name
+
+        saved_path = job_upload_dir.joinpath(*parts)
+        saved_path.parent.mkdir(parents=True, exist_ok=True)
         uploaded.save(saved_path)
 
         if zipfile.is_zipfile(saved_path):
