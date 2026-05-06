@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <h2>Dosya yükle</h2>
+    <p class="muted">
+        Tek tek DICOM dosyaları veya CD içeriğini ZIP yapıp yükleyebilirsiniz.
+        Maksimum yükleme boyutu: <strong>{{ max_upload_mb }} MB</strong>.
+    </p>
+
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="files" multiple required>
+        <br><br>
+        <button class="btn" type="submit">Yükle ve JPG’ye Çevir</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Önceki işlemler</h2>
+
+    {% if not jobs %}
+        <p class="muted">Henüz dönüştürme işlemi yok.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Yüklenen</th>
+                    <th>JPG</th>
+                    <th>Hata/Atlanan</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{ job.created_at }}</td>
+                    <td>{{ job.original_names | join(", ") }}</td>
+                    <td>{{ job.jpg_count }}</td>
+                    <td>{{ job.error_count }} / {{ job.skipped_count }}</td>
+                    <td>
+                        <a class="btn secondary" href="{{ url_for('job_detail', job_id=job.id) }}">Aç</a>
+                        {% if job.jpg_count > 0 %}
+                            <a class="btn" href="{{ url_for('download_zip', job_id=job.id) }}">ZIP indir</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+
+<div class="card warning">
+    <strong>Not:</strong> Railway ücretsiz/geçici disk kullanıyorsa dosyalar kalıcı olmayabilir.
+    Arşivin kalıcı olması için Railway Volume bağlayıp <code>DATA_DIR</code> değişkenini örneğin <code>/data</code> yapın.
+</div>
+
+{% endblock %}

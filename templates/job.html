@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <p><a href="{{ url_for('index') }}">← Ana sayfa</a></p>
+    <h2>İşlem detayı</h2>
+
+    <p><strong>İşlem ID:</strong> {{ job.id }}</p>
+    <p><strong>Oluşturulma:</strong> {{ job.created_at }}</p>
+    <p><strong>JPG sayısı:</strong> {{ job.jpg_count }}</p>
+
+    {% if job.jpg_count > 0 %}
+        <p>
+            <a class="btn" href="{{ url_for('download_zip', job_id=job.id) }}">Tüm JPG dosyalarını ZIP indir</a>
+        </p>
+    {% endif %}
+</div>
+
+{% if jpg_files %}
+<div class="card">
+    <h2>JPG dosyaları</h2>
+    <div class="file-list">
+        {% for f in jpg_files %}
+            <div class="file-row">
+                <span>{{ f.name }}</span>
+                <a href="{{ f.url }}">İndir</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if job.errors %}
+<div class="card">
+    <h2>Hatalar</h2>
+    <ul>
+        {% for e in job.errors %}
+            <li>{{ e }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if job.skipped %}
+<div class="card">
+    <h2>Atlanan dosyalar</h2>
+    <ul>
+        {% for s in job.skipped %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="card">
+    <form action="{{ url_for('delete_job', job_id=job.id) }}" method="post">
+        <button class="btn danger" type="submit">Bu işlemi sil</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <title>DICOM JPG Dönüştürücü</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #667085;
+            --primary: #2457ff;
+            --danger: #d92d20;
+            --border: #e4e7ec;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 28px 18px;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-size: 28px;
+        }
+        .header p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 20px rgba(16, 24, 40, 0.05);
+        }
+        .btn {
+            display: inline-block;
+            border: 0;
+            border-radius: 10px;
+            padding: 11px 16px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn.secondary {
+            background: #eef2ff;
+            color: var(--primary);
+        }
+        .btn.danger {
+            background: var(--danger);
+        }
+        input[type=file] {
+            width: 100%;
+            padding: 16px;
+            border: 1px dashed #98a2b3;
+            border-radius: 12px;
+            background: #fcfcfd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            padding: 12px 8px;
+            vertical-align: top;
+        }
+        th {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .muted { color: var(--muted); }
+        .flash {
+            background: #ecfdf3;
+            border: 1px solid #abefc6;
+            color: #067647;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .warning {
+            background: #fffaeb;
+            border: 1px solid #fedf89;
+            color: #93370d;
+            padding: 12px 14px;
+            border-radius: 10px;
+        }
+        .file-list {
+            max-height: 420px;
+            overflow: auto;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        .file-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .file-row:last-child { border-bottom: 0; }
+        code {
+            background: #f2f4f7;
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>DICOM → JPG Dönüştürücü</h1>
+        <p>CD içeriğinden gelen DICOM dosyalarını veya ZIP arşivlerini yükleyin. Sistem çekim tarihine göre klasörleyip JPG çıktıları indirilebilir hale getirir.</p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
