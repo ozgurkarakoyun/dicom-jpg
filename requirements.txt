@@ -1,8 +1,8 @@
 Flask==3.0.3
 gunicorn==22.0.0
-pydicom==2.4.4
+pydicom==3.0.1
 Pillow==10.4.0
-numpy==1.26.4
+numpy>=2.0,<3.0
 pylibjpeg==2.0.1
 pylibjpeg-libjpeg==2.3.0
 pylibjpeg-openjpeg==2.4.0
